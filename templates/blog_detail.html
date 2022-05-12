@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{{ blog.title }} blogs</h1>
+    <hr>
+        <h2>{{blog.title}}</h2>
+        <p> <a href="{% url 'category_blogs' blog.category.slug %}">{{blog.category.name}} </a>
+            Date: {{ blog.created }}</p>
+        <img style="width: 400px" src="{{ blog.image.url }}">
+        <p>{{ blog.descriptions }}</p>
+        <p>User: {{ blog.user.username }}</p>
+        {% for tag in blog.tags.all %}
+            #{{tag.name}}
+        <span>Views: {{blog.views}}</span>
+    {% endfor %}
+    <hr>
+
+    <a class="btn btn-success" href="{% url 'blog_update' blog.slug %}">Update</a>
+    <a class="btn btn-danger" href="{% url 'blog_delete' blog.slug %}">Delete</a>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">
+            {% for comment in blog.comment_set.all %}
+                <p>{{ comment.text }}</p>
+                <p>{{ comment.created }}</p>
+                <hr>
+            {% endfor %}
+
+        </div>
+        <div class="col-lg-6">
+            <form method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-primary" type="submit">Save</button>
+
+            </form>
+
+        </div>
+
+    </div>
+{% endblock %}

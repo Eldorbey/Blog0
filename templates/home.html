@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>All blogs</h1>
+    <hr>
+    {% for blog in blogs %}
+        <h2><a href="{% url 'blog_detail' blog.slug %}">{{blog.title}}</a></h2>
+        <p> <a href="{% url 'category_blogs' blog.category.slug %}">{{blog.category.name}} </a>
+            Date: {{ blog.created }}</p>
+        <img style="width: 400px" src="{{ blog.image.url }}">
+        <p>{{ blog.descriptions | truncatechars:8 }}</p>
+        <p>User: {{ blog.user.username }}</p>
+        {% for tag in blog.tags.all %}
+            #{{tag.name}}
+        {%endfor%}
+        <span>Views: {{blog.views}}</span>
+    {% endfor %}
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+          {% if blogs.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ blogs.previous_page_number }}">Previous</a>
+            </li>
+          {% endif %}
+        <li class="page-item">
+            <a class="page-link" href="#">{{ blogs.number }}</a>
+        </li>
+        {% if blogs.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ blogs.next_page_number}}">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+{% endblock %}

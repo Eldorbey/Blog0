@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>All categories</h1>
+    {% for c in category_list %}
+        <h3>{{c.name}} ({{ c.blog_set.count }})</h3>
+        <img src="{{c.image.url}}">
+        <p>{{c.descriptions}}</p>
+    <hr>
+    {% endfor%}
+
+{% endblock %}

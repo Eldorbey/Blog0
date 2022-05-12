@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{{ category.name}} blogs</h1>
+    {% for blog in blogs %}
+        <h2><a href="{% url 'blog_detail' blog.slug %}">{{blog.title}}</a></h2>
+        <p> <a href="{% url 'category_blogs' blog.category.slug %}">{{blog.category.name}} </a> Date: {{ blog.created }}</p>
+        <img style="width: 400px" src="{{ blog.image.url }}">
+        <p>{{ blog.descriptions | truncatechars:8 }}</p>
+        <p>User: {{ blog.user.username }}</p>
+        {% for tag in blog.tags.all %}
+            <a href="{% url 'tag_blogs' tag.slug %}">#{{tag.name}}</a>
+        {%endfor%}
+        <span>Views: {{blog.views}}</span>
+    {% endfor %}
+{% endblock %}
+
